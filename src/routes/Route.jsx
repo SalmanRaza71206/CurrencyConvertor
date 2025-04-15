@@ -5,6 +5,7 @@ import CurrencyConvert from '../pages/CurrencyConvert';
 import NotFound from '../Components/NotFound';
 import Signup from '../pages/Signup';
 import Login from '../pages/Login';
+import History from '../pages/History';
 
 function Route() {
     const router = createBrowserRouter([{
@@ -25,7 +26,8 @@ function Route() {
             path:'login',
             element:<Login/>,
 
-        },
+        }
+        
         
        ],
        errorElement:<NotFound/>

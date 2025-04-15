@@ -5,6 +5,9 @@ import Input from '../Components/Input';
 import SelectBox from '../Components/SelectBox';
 import fetchData from '../hooks/useFetch';
 import { IoIosSwap } from "react-icons/io"
+import History from './History';
+import { useDispatch } from 'react-redux';
+import { addHistory} from '../features/History/historySlice';
 
 const CurrencyConvert = () => {
   const [currVal, setcurrVal] = useState(0)
@@ -13,12 +16,15 @@ const CurrencyConvert = () => {
   const [from, setFrom] = useState('AED')
   const [to, setto] = useState('INR')
   const [selectBoxActive, setselectBoxActive] = useState(null)
+  const dispatch = useDispatch()
 
   const ConvertCur = async () => {
     const data = await fetchData(from);
-    console.log(data[JSON.stringify(to)])
-    setconvertVal((currVal * data[to]).toFixed(4))
-
+    const fixVal = (currVal * data[to]).toFixed(4)
+    // console.log(data[JSON.stringify(to)])
+    setconvertVal(fixVal)
+     
+    dispatch(addHistory({from,to,convertval:fixVal,currVal}))
   };
 
   const handleSwap = () => {
@@ -52,12 +58,19 @@ const CurrencyConvert = () => {
 
               }`}
           >
-            <span className="flex items-center justify-center gap-2 text-black">
+             <span className="flex items-center justify-center gap-2 text-black">
               <MdHistory className='text-2xl' />
               History
             </span>
+          
           </span>
         </div>
+        {
+          active === 'history' ? (
+           <History/>
+          ):
+          (
+            <>
         <div className=' relative flex items-center gap-3.5 w-full  p-10'>
           <Input currVal={currVal} setcurrVal={setcurrVal} />
           <SelectBox Boxid='from' CurrSelectState={from} setCurrSelectState={setFrom} selectBoxActive={selectBoxActive} setselectBoxActive={setselectBoxActive} />
@@ -80,6 +93,8 @@ const CurrencyConvert = () => {
             onClick={ConvertCur}
           >Convert</button>
         </div>
+        </>
+        )}
       </div>
     </div>
   )
