@@ -28,7 +28,16 @@ export const historySlice = createSlice({
                 from: from,
                 to: to,
                 convertval: convertval,
-                currVal: currVal
+                currVal: currVal,
+                date:new Date().toLocaleString('en-US', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: true,
+                  })
             }
             state.history.push(history)
             setdataLocalStorage(state.history)
